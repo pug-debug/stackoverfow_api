@@ -5,6 +5,17 @@ import static io.restassured.RestAssured.given;
 import static java.lang.String.format;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.testng.Assert.assertTrue;
+import static properties.ApiProperties.getValueOf;
+import static properties.ApiPropertiesConst.FILTER_QUERY_PARAM;
+import static properties.ApiPropertiesConst.FILTER_QUERY_PARAM_DEFAULT_VALUE;
+import static properties.ApiPropertiesConst.ORDER_QUERY_PARAM;
+import static properties.ApiPropertiesConst.ORDER_QUERY_PARAM_DESC_VALUE;
+import static properties.ApiPropertiesConst.PAGE_QUERY_PARAM;
+import static properties.ApiPropertiesConst.PAGE_SIZE_QUERY_PARAM;
+import static properties.ApiPropertiesConst.SITE_QUERY_PARAM;
+import static properties.ApiPropertiesConst.SITE_QUERY_PARAM_VALUE;
+import static properties.ApiPropertiesConst.SORT_QUERY_PARAM;
+import static properties.ApiPropertiesConst.SORT_QUERY_PARAM_ACTIVITY_VALUE;
 
 import business_objects.Item;
 import java.util.List;
@@ -14,12 +25,8 @@ import utils.StringUtils;
 
 public class AnswersTest {
 
-  private String site = "stackoverflow";
   private int page = 1;
   private int pageSize = 10;
-  private String order = "desc";
-  private String sort = "activity";
-  private String filter = "default";
   private String linkSample = "https://stackoverflow.com/users/%s/%s";
   private List<Item> listOfAnswers;
 
@@ -46,12 +53,12 @@ public class AnswersTest {
 
   private List<Item> getListOfAnswers() {
     return given()
-        .queryParams("site", site)
-        .queryParams("page", page)
-        .queryParams("pagesize", pageSize)
-        .queryParams("order", order)
-        .queryParams("sort", sort)
-        .queryParams("filter", filter)
+        .queryParams(getValueOf(SITE_QUERY_PARAM), getValueOf(SITE_QUERY_PARAM_VALUE))
+        .queryParams(getValueOf(PAGE_QUERY_PARAM), page)
+        .queryParams(getValueOf(PAGE_SIZE_QUERY_PARAM), pageSize)
+        .queryParams(getValueOf(ORDER_QUERY_PARAM), getValueOf(ORDER_QUERY_PARAM_DESC_VALUE))
+        .queryParams(getValueOf(SORT_QUERY_PARAM), getValueOf(SORT_QUERY_PARAM_ACTIVITY_VALUE))
+        .queryParams(getValueOf(FILTER_QUERY_PARAM), getValueOf(FILTER_QUERY_PARAM_DEFAULT_VALUE))
         .when()
         .get(ANSWERS)
         .then()
